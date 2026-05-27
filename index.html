@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lost Classics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f0e8;
+      --ink: #1a1410;
+      --red: #c0392b;
+      --tan: #d4c5a9;
+      --mid: #8a7a68;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'IBM Plex Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .masthead {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .masthead span {
+      color: var(--red);
+      font-style: italic;
+    }
+
+    .tagline {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-top: 12px;
+    }
+
+    .divider {
+      width: 100%;
+      max-width: 480px;
+      height: 1px;
+      background: var(--ink);
+      margin: 24px auto 0;
+      position: relative;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      width: 7px;
+      height: 7px;
+      background: var(--red);
+      border-radius: 50%;
+    }
+
+    .divider::before { left: 0; }
+    .divider::after { right: 0; }
+
+    .btn-wrap {
+      margin-bottom: 56px;
+    }
+
+    button {
+      background: var(--ink);
+      color: var(--cream);
+      border: none;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 18px 48px;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.1s, box-shadow 0.1s;
+      box-shadow: 4px 4px 0 var(--red);
+    }
+
+    button:hover:not(:disabled) {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--red);
+    }
+
+    button:active:not(:disabled) {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--red);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: 4px 4px 0 var(--tan);
+    }
+
+    .status {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--mid);
+      margin-top: 16px;
+      min-height: 1.2em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .status.error {
+      color: var(--red);
+    }
+
+    .output {
+      width: 100%;
+      max-width: 520px;
+      display: none;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .output.visible {
+      display: flex;
+    }
+
+    .record-sleeve {
+      border: 2px solid var(--ink);
+      box-shadow: 6px 6px 0 var(--ink);
+      overflow: hidden;
+      animation: reveal 0.4s ease both;
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .record-sleeve img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .metadata-panel {
+      border: 2px solid var(--ink);
+      border-top: none;
+      background: #fff;
+      padding: 28px 32px;
+      box-shadow: 6px 6px 0 var(--ink);
+      animation: reveal 0.4s 0.15s ease both;
+      opacity: 0;
+    }
+
+    .metadata-panel.loaded {
+      opacity: 1;
+    }
+
+    .meta-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 4px;
+    }
+
+    .meta-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      margin-bottom: 20px;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+
+    .meta-value:last-child {
+      margin-bottom: 0;
+    }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 24px;
+    }
+
+    .meta-loading {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--mid);
+      text-transform: uppercase;
+      padding: 24px 32px;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 80px;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--tan);
+      text-transform: uppercase;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="masthead">Lost <span>Classics</span></div>
+    <p class="tagline">Rediscovered Singles from the Archives</p>
+    <div class="divider"></div>
+  </header>
+
+  <div class="btn-wrap">
+    <button id="generateBtn" onclick="generate()">&#9654; Find Lost Classic</button>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="output" id="output">
+    <div class="record-sleeve">
+      <img id="coverImage" src="" alt="Single artwork" />
+    </div>
+    <div class="metadata-panel" id="metadataPanel">
+      <div class="meta-loading" id="metaLoading">Reading the sleeve...</div>
+      <div id="metaFields" style="display:none">
+        <div class="meta-label">Artist</div>
+        <div class="meta-value" id="mArtist"></div>
+        <div class="meta-label">Single</div>
+        <div class="meta-value" id="mTitle"></div>
+        <div class="meta-row">
+          <div>
+            <div class="meta-label">Year</div>
+            <div class="meta-value" id="mYear"></div>
+          </div>
+          <div>
+            <div class="meta-label">Country</div>
+            <div class="meta-value" id="mCountry"></div>
+          </div>
+        </div>
+        <div class="meta-label">Genre</div>
+        <div class="meta-value" id="mGenre"></div>
+        <div class="meta-label">Notable Instruments</div>
+        <div class="meta-value" id="mInstruments"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Every record tells a story &mdash; even the ones that never existed</footer>
+
+  <script>
+    async function generate() {
+      const btn = document.getElementById('generateBtn');
+      const status = document.getElementById('status');
+      const output = document.getElementById('output');
+
+      btn.disabled = true;
+      output.classList.remove('visible');
+      status.className = 'status';
+      status.textContent = 'Searching the archives...';
+
+      try {
+        // CALL 1: Generate the image
+        const imageRes = await fetch('/.netlify/functions/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ call: 'image' }),
+        });
+
+        if (!imageRes.ok) {
+          const err = await imageRes.json();
+          throw new Error(err.error || 'Image generation failed');
+        }
+
+        const imageData = await imageRes.json();
+
+        // Show the image
+        const img = document.getElementById('coverImage');
+        img.src = `data:${imageData.mimeType};base64,${imageData.imageData}`;
+        output.classList.add('visible');
+
+        document.getElementById('metaLoading').style.display = 'block';
+        document.getElementById('metaFields').style.display = 'none';
+        status.textContent = 'Reading the sleeve...';
+
+        // CALL 2: Extract metadata from the image
+        const metaRes = await fetch('/.netlify/functions/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            call: 'metadata',
+            imageData: { mimeType: imageData.mimeType, data: imageData.imageData },
+          }),
+        });
+
+        if (!metaRes.ok) {
+          const err = await metaRes.json();
+          throw new Error(err.error || 'Metadata extraction failed');
+        }
+
+        const metaData = await metaRes.json();
+
+        // Parse metadata JSON
+        let meta = {};
+        try {
+          const clean = metaData.metadata.replace(/```json|```/g, '').trim();
+          meta = JSON.parse(clean);
+        } catch {
+          meta = { artist: '—', title: '—', year: '—', country: '—', genre: '—', instruments: '—' };
+        }
+
+        document.getElementById('mArtist').textContent = meta.artist || '—';
+        document.getElementById('mTitle').textContent = meta.title || '—';
+        document.getElementById('mYear').textContent = meta.year || '—';
+        document.getElementById('mCountry').textContent = meta.country || '—';
+        document.getElementById('mGenre').textContent = meta.genre || '—';
+        document.getElementById('mInstruments').textContent = meta.instruments || '—';
+
+        document.getElementById('metaLoading').style.display = 'none';
+        document.getElementById('metaFields').style.display = 'block';
+        document.getElementById('metadataPanel').classList.add('loaded');
+
+        status.textContent = '';
+
+      } catch (err) {
+        status.className = 'status error';
+        status.textContent = 'Error: ' + err.message;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+  </script>
+
+</body>
+</html>
