@@ -15,11 +15,11 @@ exports.handler = async function (event, context) {
 
     // CALL 1: Generate the artwork image
     if (call === "image") {
-      const prompt = `Generate a highly believable fictional HIT SINGLE artwork from any year between 1960 and today. The final output is a single image containing TWO panels arranged vertically.
+      const prompt = `Generate a highly believable fictional HIT SINGLE or CULT CLASSIC or DEEP CUT artwork from any year between 1960 and today. The final output is a single image containing TWO panels arranged vertically.
 
 PANEL 1: THE ARTWORK
 
-The top panel is the front cover artwork of the single.
+The top panel is the front cover design or artwork of the single.
 
 Randomly vary: release year, country or regional scene, genre and subgenre, commercial success level, release format, budget level, audience demographic, label type.
 
