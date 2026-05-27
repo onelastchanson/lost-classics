@@ -15,7 +15,7 @@ exports.handler = async function (event, context) {
 
     // CALL 1: Generate the artwork image
     if (call === "image") {
-      const prompt = `Create a highly believable fictional HIT SINGLE or CULT CLASSIC or DEEP CUT release from any year between 1960 and today.
+      const prompt = `Create a highly believable fictional song release from any year between 1960 and today.
 
 This is NOT an album cover.
 
