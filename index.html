@@ -78,6 +78,7 @@
 
     .btn-wrap {
       margin-bottom: 56px;
+      text-align: center;
     }
 
     button {
@@ -123,6 +124,17 @@
 
     .status.error {
       color: var(--red);
+    }
+
+    .status .retry-btn {
+      display: inline-block;
+      padding: 4px 14px;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      box-shadow: 2px 2px 0 var(--red);
+      margin-left: 10px;
+      vertical-align: middle;
+      text-transform: uppercase;
     }
 
     .output {
@@ -267,6 +279,7 @@
       btn.disabled = true;
       output.classList.remove('visible');
       status.className = 'status';
+      status.innerHTML = '';
       status.textContent = 'Searching the archives...';
 
       try {
@@ -330,11 +343,11 @@
         document.getElementById('metaFields').style.display = 'block';
         document.getElementById('metadataPanel').classList.add('loaded');
 
-        status.textContent = '';
+        status.innerHTML = '';
 
       } catch (err) {
         status.className = 'status error';
-        status.textContent = 'Error: ' + err.message;
+        status.innerHTML = 'Something got lost in the archives.&nbsp;&nbsp;<button class="retry-btn" onclick="generate()">Keep Looking</button>';
       } finally {
         btn.disabled = false;
       }
