@@ -54,6 +54,16 @@ Target approximate decade distribution across repeated generations:
 - 2010s: 10%
 - 2020s: 5%
 
+Randomly select a release year with roughly equal probability across all decades from 1960–2025.
+
+Target approximate geographic distribution across repeated generations:
+- Europe: 40%
+- North America: 25%
+- South America: 15%
+- Oceania: 5%
+- Afria: 5%
+- Asia: 5%
+
 Do not favor earlier decades simply because they are historically iconic or visually distinctive.
 
 Actively avoid overusing:
